@@ -20,7 +20,7 @@ return new class extends Migration
             $table->dateTime('published_at');
             $table->boolean('available');
             $table->string('image')->nullable();
-            $table->json('images')->nullable();
+            //$table->json('images')->nullable();
             $table->string('sort_order')->nullable();
             $table->string('template_suffix')->nullable();
             $table->timestamps();

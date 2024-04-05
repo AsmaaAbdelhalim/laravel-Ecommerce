@@ -22,13 +22,15 @@ class StoreStoreinfoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'currency' => 'required',
-            'time_zone' => 'required',
+            'name' => 'required|string',
+            'currency' => 'required|string',
+            'time_zone' => 'required|string',
             'email' => 'required|email',
-            'description' => 'required',
-            'country' => 'required',
-            'country_code' => 'required',
+            'description' => 'required|string',
+            'country' => 'required|string',
+            'country_code' => 'required|string',
+            'created_at' => 'required',
+            'updated_at' => 'required',
         ];
     }
 }

@@ -44,3 +44,25 @@ Route::post('storeinfo', [StoreInfoController::class,'index']);  //
 // Route::apiResource('orders', [OrderController::class, 'index']);
 // Route::apiResource("orders/{order}",[OrderController::class, 'show']);
 // Route::apiResource('storeinfo', [StoreInfoController::class,'index']); 
+
+Route::post('/webhook/storeinfo', [StoreInfoController::class, 'webhookHandler']);
+Route::post('/webhook/storeinfo/create', [StoreInfoController::class, 'create']);
+Route::put('/webhook/storeinfo/edit/{id}', [StoreInfoController::class, 'edit']);
+
+Route::put('/webhook/storeinfo/update/{id}', [StoreInfoController::class, 'update']);
+
+Route::delete('/webhook/storeinfo/delete/{id}', [StoreInfoController::class, 'delete']);
+
+Route::post('/webhook/category/create', [CategoryController::class, 'create']);
+Route::put('/webhook/category/edit/{id}', [CategoryController::class, 'edit']);
+
+Route::patch('/webhook/category/update/{id}', [CategoryController::class, 'update']);
+
+Route::delete('/webhook/category/delete/{id}', [CategoryController::class, 'delete']);
+
+Route::post('/webhook/product/create', [ProductController::class, 'create']);
+Route::put('/webhook/product/edit/{id}', [ProductController::class, 'edit']);
+
+Route::patch('/webhook/product/update/{id}', [ProductController::class, 'update']);
+
+Route::delete('/webhook/product/delete/{id}', [ProductController::class, 'delete']);

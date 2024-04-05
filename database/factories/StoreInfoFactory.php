@@ -24,6 +24,9 @@ class StoreInfoFactory extends Factory
         'description' => $this->faker->text(),
         'country' => $this->faker->country(),
         'country_code' => $this->faker->countryCode(),
+        'updated_at' => now(),
+        'created_at' => now(),
+
         ];
     }
 }

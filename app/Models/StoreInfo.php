@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\StoreInfoEvent;
+use App\Observers\StoreInfoObserver;
+
+//use Illuminate\Support\Facades\Log;
 
 class StoreInfo extends Model
 {
@@ -17,4 +21,5 @@ class StoreInfo extends Model
         'country',
         'country_code',
     ];
+    
 }

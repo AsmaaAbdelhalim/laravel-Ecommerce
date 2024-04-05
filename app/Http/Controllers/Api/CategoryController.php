@@ -7,6 +7,7 @@ use App\Models\category;
 use Illuminate\Http\Request;
 use  Illuminate\Support\Facades\Config;
 use App\Http\Requests\StoreCategoryRequest;
+use Illuminate\Support\Facades\Log;
 //use Illuminate\pagination\LengthAwarePaginator;
 
 
@@ -20,7 +21,7 @@ class CategoryController extends Controller
         $envToken = Config::get('app.API_TOKEN');
         $providedToken = $request['token'];
         if ($providedToken !== $envToken){
-            return response()->json(['message' => 'Unauthorized'],404);
+            return response()->json(['message' => 'Unauthorized'],401);
         }
         $categories = Category::paginate($request["per_page"]);
 
@@ -36,88 +37,11 @@ class CategoryController extends Controller
                 'to' => $categories->lastItem(),
             ],
             ]);
-    }       
-     // $perPage = 
-        // $request->has('per_page') ? $request->per_page : []
-        // Default per_page value is 10
-    //$categories = category::all();
-        // $query = Category::query();
-        // if ($request->has('per_page')){
-        //     $per_page = $request->per_page;
-        //     $categories = $query->paginate($per_page);
-        // }
-      
-        // $pagination = self::pagination(Category::all());
-
-        // $page = LengthAwarePaginator::resolveCurrentPage();
-        // $perPage = 5;
-        // $offset = ($page * $perPage) - $perPage;
-        // $items = $categories->slice($offset, $perPage)->all();
-        // $paginated = new LengthAwarePaginator($items, $categories->total(), $perPage, $page, [
-        //     'path' => LengthAwarePaginator::resolveCurrentPath(),
-        // ]);
-
-        // $per_page = $request->per_page;
-        // $categories = category::paginate($per_page);
-
-
-        // $query = Category::query();
-
-        // if ($s = $request->input('s')) {
-        //     $query->where('title', 'regexp', "/.*$s/i")
-        //         ->orWhere('description', 'regexp', "/.*$s/i");
-        // }
-
-        // if ($sort = $request->input('sort')) {
-        //     $query->orderBy('price', $sort);
-        // }
-
-        // $perPage = 9;
-        // $page = $request->input('page', 1);
-        // $total = $query->count();
-
-        // $result = $query->offset(($page - 1) * $perPage)->limit($perPage)->get();
-
-        // return [
-        //     'data' => $result,
-        //     'total' => $total,
-        //     'page' => $page,
-        //     'last_page' => ceil($total / $perPage)
-        // ];
-        
-        // $pagination = [
-        //     'total' => $categories->total(),
-        //     'current_page' => $categories->currentPage(),
-        //     'per_page' => $categories->perPage(),
-        //     'last_page' => $categories->lastPage(),
-        //     'from' => $categories->firstItem(),
-        //     'to' => $categories->lastItem(),
-        // ];
-
-        // return response()->json([
-        //     'categories' => $categories->items(),
-        //     'pagination' => $pagination,
-        // ]);
-    private static function pagination(
-        $categories,
-        $perPage = 3
-       
-    ){
-        $page = (int)request('page');
-        $start = ($page == 1) ? 0 : ($page - 1) * $perPage;
-        $total = $categories->count();
-        $pages_count = ceil($total / $perPage);
-        $paginated = $categories->slice($start, $perPage);
-        return [
-            'total' => $total,
-            'current_page' => $page,
-            'per_page' => $perPage,
-            'last_page' => $pages_count,
-            'from' => $start + 1,
-            'to' => $start + $perPage,
-            'items' => $paginated,
-        ];
-         
+    }    
+    //
+    public function create(Request $request)
+    {
+        Log::info('Webhook Request - Creating category: ', ['data'=>$request->all()]);       
     }
 
     /**
@@ -125,7 +49,9 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $category = Category::create($request->all());
+        //$category = Category::create($request->all());
+        $category = Category::create($request->validated());
+
         // $category = new Category();
         // $category->taxonomy = $request->taxonomy;
         // $category->handle = $request->handle;
@@ -148,20 +74,44 @@ class CategoryController extends Controller
         return response()->json($category);
     }
 
+    //
+    public function edit(Category $category, Request $request, $id)
+    {
+        Log::info("Editing category with id", ["id" => $id ]);
+        $category=Category::findOrFail($id);
+            if (!$category){
+                return response()->json([ "message"=> "category not found"],404);
+             }
+             return response()->json($category) ;  
+
+    }
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, category $category)
+    public function update(Request $request, category $category ,$id)
     {
-        //
+        Log::info("Updating category with id ", ['id' => $id , 'data'=> $request->all()]);
+        $category=Category::findOrFail($id);
+            if (!$category){
+                return response()->json([ "message"=> "category not found"],404);
+             }
+        $category->save();
+        return response()->json(['message' => 'Category updated successfully', 'category' => $category]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(category $category)
+    public function delete($id)
     {
-        //
+        Log::info("Deleting category with id" ,['id' =>$id]);
+            $category=Category::findOrFail($id);
+            if (!$category){
+                return response()->json([ "message"=> "category not found"],404);
+             }
+            $category->delete();
+        return response()->json(['message' => 'Category deleted successfully'], 200);
+
     }
       
 }

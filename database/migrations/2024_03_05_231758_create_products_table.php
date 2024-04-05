@@ -26,7 +26,6 @@ return new class extends Migration
             $table->integer('quantity')->nullable();
             $table->dateTime('published_at');
             $table->string('tags')->nullable();
-            //$table->json('images')->nullable();
             $table->string('full_permalink');
             $table->text('content');
             $table->string('meta')->nullable();

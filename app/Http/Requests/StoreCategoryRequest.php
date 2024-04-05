@@ -23,11 +23,15 @@ class StoreCategoryRequest extends FormRequest
     {
         
         return [ 
-            'title' => ['required','string'],
-            'taxonomy' => ['required','string'],
-            'available'  => ['required','boolean'],
-            'published_at' => 'required',
-            
+            'taxonomy' => 'required|string',
+            'handle' => 'nullable|string',
+            'title' => 'required|string',
+            'content' => 'nullable|string',
+            'published_at' => 'required|date',
+            'available' => 'required|boolean',
+            'image' => 'nullable|image',
+            'sort_order' => 'nullable|string',
+            'template_suffix' => 'nullable|string',
         ];
     }
 }

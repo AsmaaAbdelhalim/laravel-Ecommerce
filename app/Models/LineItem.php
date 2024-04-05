@@ -14,11 +14,12 @@ class LineItem extends Model
         'order_product_id',
         'model',
         'image',
-       'quantity',
+        'quantity',
         'price',
         'total',
         'tax', 
     ];
+    
     public function orders() {
 
         return $this->hasMany(Order::class);

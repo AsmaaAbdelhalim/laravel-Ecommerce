@@ -22,23 +22,23 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
-            'image' => 'required',
-            'type' => 'nullable',
-            'vendor' => 'required',
-            'handle' => 'nullable',
-            'owner' => 'required',
-            'compare_at_price' => 'nullable|numeric',
+            'title' => 'required|string',
+            'image' => 'required|string',
+            'type' => 'nullable|string',
+            'vendor' => 'required|string',
+            'handle' => 'nullable|string',
+            'owner' => 'required|string',
             'price' => 'required|numeric',
-            'stock_status' => 'nullable',
+            'compare_at_price' => 'nullable|numeric',
+            'stock_status' => 'nullable|string',
             'quantity' => 'nullable|integer',
             'published_at' => 'required|date',
-            'tags' => 'nullable',
-            //'images' => 'json',
-            'full_permalink' => 'required',
-            'content' => 'required',
-            'meta' => 'nullable',
+            'tags' => 'nullable|string',
+            'full_permalink' => 'required|string',
+            'content' => 'required|string',
+            'meta' => 'nullable|string',
             'category_id' => 'nullable|exists:categories,id',
+            'image_id' => 'nullable|exists:images,id',
         ];
     }
 }

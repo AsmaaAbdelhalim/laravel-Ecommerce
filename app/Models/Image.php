@@ -9,8 +9,9 @@ class Image extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name', 'path' ,];
-    
+        'name', 'path', 'width', 'height',
+    ];
+ 
     public function product()
     {
         return $this->belongsTo(Product::class);
