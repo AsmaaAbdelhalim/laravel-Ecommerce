@@ -54,7 +54,7 @@ class StoreInfoController extends Controller
 
     public function create(Request $request)
     {
-    event(new StoreInfo($request->all()));
+    event(new StoreInfoEvent('create', [$request->all()]));
     return response()->json(['message' => 'StoreInfo created successfully'], 201);
     }
 
