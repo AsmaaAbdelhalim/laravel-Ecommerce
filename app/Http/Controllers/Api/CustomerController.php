@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use  Illuminate\Support\Facades\Config;
-
 use App\Http\Requests\StoreCustomerRequest;
+use Illuminate\Support\Facades\Http;
 
 class CustomerController extends Controller
 {
@@ -26,15 +26,22 @@ class CustomerController extends Controller
         return response()->json([
             'current_page' => $customers->currentPage(),
             'data' => $customers->items(),
-            'pagination' => [
                 'total' => $customers->total(),
                 'per_page' => $customers->perPage(),
                 'current_page' => $customers->currentPage(),
                 'last_page' => $customers->lastPage(),
                 'from' => $customers->firstItem(),
                 'to' => $customers->lastItem(),
-            ],
         ]);
+    }
+    /**
+     * 
+     */
+    public function create()
+    {
+        $response = Http::post('http://127.0.0.1:8000/convertedin/customers');
+        return response()->json(['message' => 'Customer created successfully']);
+
     }
 
     /**
@@ -59,16 +66,29 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Customer $customer, $id)
     {
-        //
+        $response = Http::post('http://127.0.0.1:8000/convertedin/customers');
+    
+        $customer=Customer::findOrFail($id);
+        if (!$customer){
+            return response()->json([ "message"=> "customer not found"],404);
+         }
+        $customer->save();
+        return response()->json(['message' => 'customer updated successfully', 'customer' => $customer]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Customer $customer)
+    public function destroy(Customer $customer, $id)
     {
-        //
+        $customer=Customer::findOrFail($id);
+        if (!$customer){
+            return response()->json([ "message"=> "customer not found"],404);
+         }
+        $customer->delete();
+        $response = Http::post('http://127.0.0.1:8000/convertedin/customers');
+    return response()->json(['message' => 'customer deleted successfully'], 200);
     }
 }

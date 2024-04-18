@@ -11,18 +11,10 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
 use App\Http\Requests\StoreStoreInfoRequest;
-
-
+use Illuminate\Support\Facades\Http;
 
 class StoreInfoController extends Controller
 {
-
-    protected $logger;
-
-    public function __construct(Log $logger)
-    {
-        $this->logger = $logger;
-    }
     /**
      * Display a listing of the resource.
      */
@@ -38,23 +30,20 @@ class StoreInfoController extends Controller
         return response()->json([
             'code' => 200 ,
             'current_page' => $storeInfo->currentPage(),
-            'data' => $storeInfo->items(),
-       
-            'pagination' => [
+            'data' => $storeInfo->items()[0],
+
             'total' => $storeInfo->total(),
             'current_page' => $storeInfo->currentPage(),
             'per_page' => $storeInfo->perPage(),
             'last_page' => $storeInfo->lastPage(),
             'from' => $storeInfo->firstItem(),
             'to' => $storeInfo->lastItem(),
-           ],
              ]);
             return response()->json(['message' => 'StoreInfo created successfully'], 200);
     }
 
     public function create(Request $request)
     {
-    event(new StoreInfoEvent('create', [$request->all()]));
     return response()->json(['message' => 'StoreInfo created successfully'], 201);
     }
 
@@ -63,12 +52,9 @@ class StoreInfoController extends Controller
      */
     public function store(StoreStoreInfoRequest $request)
     {
-
-        // event(new StoreInfo('create', [$request->all()]));
-        //         $storeInfo->save();
-
-        // //event(new  StoreInfo('store', $storeInfo));
-        // return response()->json(['message' => 'StoreInfo created successfully'], 200);
+        $storeInfo = StoreInfo::create($request->all()); 
+        $storeInfo->save();
+        return response()->json(['message' => 'StoreInfo created successfully'], 200);
     }
 
     /**
@@ -84,26 +70,16 @@ class StoreInfoController extends Controller
      * 
      */
 
-     public function edit(StoreInfo $storeInfo, Request $request, $id)
+     public function edit(StoreInfo $storeInfo)
      {
-        //    $editedData = StoreInfo::find($id);
-        //    $editedData->update($request->all());
-
-        //    event(new StoreInfo('edit', $editedData));
-        //    return response()->json([
-        //        "old" => $request->input("_previous"),
-        //        "new"=> $editedData
-        //    ], 200);
-
-           }
+        //
+     }
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         $storeInfo = StoreInfo::find($id);     
-       // dd($storeInfo);
-        StoreInfoEvent::dispatch('update', [$request->all()]);
             if (!$storeInfo){
                 return response()->json([ "message"=> "storeInfo not found"],404);
              }  
@@ -114,14 +90,14 @@ class StoreInfoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Request $request, $id)
+    public function destroy($id)
     {
         $storeInfo=StoreInfo::findOrFail($id);
         if (!$storeInfo){
             return response()->json([ "message"=> "storeInfo not found"],404);
          }
         $storeInfo->delete();
-        event(new StoreInfo($request->all()));
+        $response = Http::post('http://127.0.0.1:8000/convertedin/storeinfo');
     return response()->json(['message' => 'StoreInfo deleted successfully']);
     }
 }

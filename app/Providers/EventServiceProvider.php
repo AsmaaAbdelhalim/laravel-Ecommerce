@@ -6,10 +6,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
-use App\Events\StoreInfoEvent;
-use App\Observers\StoreInfoObserver;
-
-use App\Models\StoreInfo;
 use Illuminate\Support\Facades\Log; 
 class EventServiceProvider extends ServiceProvider
 {
@@ -22,20 +18,11 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        
 
             ];
-            protected $observer = [
-                Registered::class => [
-                    SendEmailVerificationNotification::class,
-                ],
-            
-                
-            ];
-            public function boot()
-{
-    StoreInfo::observe(StoreInfoObserver::class);
-    
-}
+
+
 
     /**
      * Register any events for your application.

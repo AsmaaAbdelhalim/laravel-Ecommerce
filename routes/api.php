@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('categories', [CategoryController::class , 'index']);
 Route::post('categories/{category}',[CategoryController::class , 'show']);
+Route::post('collections/{category}',[CategoryController::class , 'show']);
 Route::post('products', [ProductController::class , 'index']);
 Route::post('products/{product}',[ProductController::class , 'show']);
 Route::post('customers', [CustomerController::class , 'index']);
@@ -46,12 +47,12 @@ Route::post('storeinfo', [StoreInfoController::class,'index']);  //
 // Route::apiResource('storeinfo', [StoreInfoController::class,'index']); 
 
 Route::post('/webhook/storeinfo', [StoreInfoController::class, 'webhookHandler']);
-Route::post('/webhook/storeinfo/create', [StoreInfoController::class, 'create']);
-Route::put('/webhook/storeinfo/edit/{id}', [StoreInfoController::class, 'edit']);
+Route::post('storeinfo/create', [StoreInfoController::class, 'create']);
+Route::post('storeinfo/edit/{id}', [StoreInfoController::class, 'edit']);
 
-Route::put('/webhook/storeinfo/update/{id}', [StoreInfoController::class, 'update']);
+Route::post('storeinfo/update/{id}', [StoreInfoController::class, 'update']);
 
-Route::delete('/webhook/storeinfo/delete/{id}', [StoreInfoController::class, 'delete']);
+Route::post('storeinfo/delete/{id}', [StoreInfoController::class, 'delete']);
 
 Route::post('/webhook/category/create', [CategoryController::class, 'create']);
 Route::put('/webhook/category/edit/{id}', [CategoryController::class, 'edit']);
@@ -60,9 +61,7 @@ Route::patch('/webhook/category/update/{id}', [CategoryController::class, 'updat
 
 Route::delete('/webhook/category/delete/{id}', [CategoryController::class, 'delete']);
 
-Route::post('/webhook/product/create', [ProductController::class, 'create']);
-Route::put('/webhook/product/edit/{id}', [ProductController::class, 'edit']);
-
-Route::patch('/webhook/product/update/{id}', [ProductController::class, 'update']);
-
-Route::delete('/webhook/product/delete/{id}', [ProductController::class, 'delete']);
+Route::post('products/create', [ProductController::class, 'create']);
+Route::post('products/edit/{id}', [ProductController::class, 'edit']);
+Route::post('products/update/{id}', [ProductController::class, 'update']);
+Route::post('products/delete/{id}', [ProductController::class, 'delete']);

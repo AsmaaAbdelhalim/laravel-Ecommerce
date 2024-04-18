@@ -12,6 +12,6 @@ class StoreInfoSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\StoreInfo::factory(1)->create();
+         \App\Models\StoreInfo::factory(1)->create();
     }
 }

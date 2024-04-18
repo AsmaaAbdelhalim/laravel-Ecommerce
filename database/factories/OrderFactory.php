@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Order;
 USE App\Models\Customer;
 use App\Models\Product;
 use App\Models\LineItem;
@@ -32,7 +31,7 @@ class OrderFactory extends Factory
             'total_tax' => $this->faker->randomFloat(2, 5, 200),
             'taxes_included' => $this->faker->boolean,
             'total_discounts' => $this->faker->randomFloat(2, 0, 100),
-            'total_line_items_price_set' => $this->faker->randomFloat(2, 10, 500),
+            'total_line_items_price' => $this->faker->randomFloat(2, 10, 500),
             'total_weight' => $this->faker->randomFloat(2, 0, 50),
             'total_tip_received' => $this->faker->randomFloat(2, 0, 50),
             //'billing_address' => $this->faker->address,
@@ -53,7 +52,15 @@ class OrderFactory extends Factory
             'source_name' => $this->faker->word,
             'source_url' => $this->faker->url,
             'tags' => $this->faker->words(3, true),
-            
+            'note' => $this->faker->sentence,
+            'name' =>  $this->faker->firstName . " " .$this->faker->lastName ,
+            'email' => $this->faker->email,
+            'fulfillment_status' => $this->faker->randomElement([null,'fulfilled','partial']),
+            'landing_site' => $this->faker->domainName,
+            'landing_site_ref' => $this->faker->word,
+            'number' => $this->faker->numberBetween(1, 1000),
+            'order_number' => $this->faker->numberBetween(1000, 9999),
+            'order_status_url' => $this->faker->url,
 
             'customer_id' => $this->faker->randomElement(Customer::pluck('id')->toArray()),
 

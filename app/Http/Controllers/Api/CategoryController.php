@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\category;
 use Illuminate\Http\Request;
 use  Illuminate\Support\Facades\Config;
 use App\Http\Requests\StoreCategoryRequest;
+use App\Models\Category;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 //use Illuminate\pagination\LengthAwarePaginator;
 
@@ -28,20 +29,20 @@ class CategoryController extends Controller
         return response()->json([
             'current_page' => $categories->currentPage(),
             'data' => $categories->items(),
-            'pagination' => [
                 'total' => $categories->total(),
                 'per_page' => $categories->perPage(),
                 'current_page' => $categories->currentPage(),
                 'last_page' => $categories->lastPage(),
                 'from' => $categories->firstItem(),
                 'to' => $categories->lastItem(),
-            ],
             ]);
     }    
     //
-    public function create(Request $request)
+    public function create()
     {
-        Log::info('Webhook Request - Creating category: ', ['data'=>$request->all()]);       
+        $response = Http::post('http://127.0.0.1:8000/convertedin/categories');
+        return response()->json(['message' => 'Category created successfully']);
+
     }
 
     /**
@@ -75,23 +76,17 @@ class CategoryController extends Controller
     }
 
     //
-    public function edit(Category $category, Request $request, $id)
+    public function edit(Category $category)
     {
-        Log::info("Editing category with id", ["id" => $id ]);
-        $category=Category::findOrFail($id);
-            if (!$category){
-                return response()->json([ "message"=> "category not found"],404);
-             }
-             return response()->json($category) ;  
-
+        //
     }
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, category $category ,$id)
+    public function update(category $category ,$id)
     {
-        Log::info("Updating category with id ", ['id' => $id , 'data'=> $request->all()]);
-        $category=Category::findOrFail($id);
+        $response = Http::post('http://127.0.0.1:8000/convertedin/categories');
+               $category=Category::findOrFail($id);
             if (!$category){
                 return response()->json([ "message"=> "category not found"],404);
              }
@@ -102,14 +97,15 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function delete($id)
+    public function destroy(category $category ,$id)
     {
-        Log::info("Deleting category with id" ,['id' =>$id]);
             $category=Category::findOrFail($id);
             if (!$category){
                 return response()->json([ "message"=> "category not found"],404);
              }
             $category->delete();
+            $response = Http::post('http://127.0.0.1:8000/convertedin/categories');
+
         return response()->json(['message' => 'Category deleted successfully'], 200);
 
     }

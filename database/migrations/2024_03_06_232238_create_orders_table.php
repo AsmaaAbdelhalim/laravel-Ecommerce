@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('taxes_included' )->default(false);
             $table->decimal('total_discounts')->dafault(0);
 
-            $table->decimal('total_line_items_price_set', 10, 2)->nullable();
+            $table->decimal('total_line_items_price', 10, 2)->nullable();
             $table->decimal('total_weight', 10, 2)->default(0)->nullable();
 
 
@@ -54,6 +54,16 @@ return new class extends Migration
             $table->string('source_name')->nullable();
             $table->string('source_url')->nullable();
             $table->string('tags')->nullable();
+            $table->text('note')->nullable();
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+           
+            $table->string('fulfillment_status')->nullable();
+            $table->string('landing_site')->nullable();
+            $table->string('landing_site_ref')->nullable();
+            $table->integer('number')->nullable();
+            $table->integer('order_number')->nullable();
+            $table->string('order_status_url')->nullable();
         
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+    protected $hidden = [
+        'meta'
+    ];
     protected $fillable = [
             'title',
             'image',
@@ -24,7 +27,7 @@ class Product extends Model
             //'images',
             'full_permalink',
             'content',
-            'meta',
+            //'meta',
             'category_id',
             'image_id'
     ];

@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Models\StoreInfo;
-use App\Events\StoreInfoEvent;
 use Illuminate\Support\Facades\Log;
 
 class StoreInfoObserver
@@ -20,8 +19,8 @@ class StoreInfoObserver
      * Handle the StoreInfo "updated" event.
      */
     public function updated(StoreInfo $storeInfo): void
-    {
-        //
+    {   
+        Log::info('StoreInfo with ID ' . $storeInfo->id . ' has been updated.'.json_encode($storeInfo));
     }
 
     /**
@@ -29,7 +28,7 @@ class StoreInfoObserver
      */
     public function deleted(StoreInfo $storeInfo): void
     {
-        //
+        Log::info('Deleting store info with ID: ' . $storeInfo->id. ' has been deleted.');  
     }
 
     /**
