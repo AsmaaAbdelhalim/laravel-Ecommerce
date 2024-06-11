@@ -19,8 +19,8 @@ use App\Http\Controllers\Api\StoreInfoController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->get('/customer', function (Request $request) {
+    return $request->customer();
 });
 Route::post('categories', [CategoryController::class , 'index']);
 Route::post('categories/{category}',[CategoryController::class , 'show']);

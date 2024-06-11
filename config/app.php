@@ -125,6 +125,9 @@ return [
 
     'key' => env('APP_KEY'),
 
+    'st' => env('STRIPE_KEY',"pk_test_51ORgHbJl24ZR5i5htMUSF3G59w4CRM4rUElrcaCMGl5D7CXHLZhyexUUil9yM7WwMnjPKtLZrByFW4vyZeVNyk8P00fAwi3fo4"),
+    'st_secret' => env('STRIPE_SECRET',"pk_test_51ORgHbJl24ZR5i5htMUSF3G59w4CRM4rUElrcaCMGl5D7CXHLZhyexUUil9yM7WwMnjPKtLZrByFW4vyZeVNyk8P00fAwi3fo4"),
+
     'cipher' => 'AES-256-CBC',
 
     /*
